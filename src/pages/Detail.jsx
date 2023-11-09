@@ -7,27 +7,33 @@ import { getTodoByID } from "../redux/modules/todos.js";
 const Detail = () => {
   const dispatch = useDispatch();
   const todo = useSelector((state) => state.todos.todo);
-
   const { id } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getTodoByID(id)); // Fetch the todo item when the component mounts
+  }, [dispatch, id]); // Add dependencies to the dependency array
+
+  // The useEffect hook above will dispatch the getTodoByID action with the 'id' from useParams.
+  // This will load the todo item into the component's state when the component mounts or the 'id' changes.
 
   return (
     <StContainer>
       <StDialog>
         <div>
           <StDialogHeader>
-            <div>ID :{todo.id}</div>
+            <div>ID: {todo.id}</div> {/* Displays the ID */}
             <StButton
               borderColor="#ddd"
               onClick={() => {
-                navigate("/");
+                navigate("/"); // Navigates back to the homepage
               }}
             >
-              이전으로
+              Back
             </StButton>
           </StDialogHeader>
-          <StTitle>{todo.title}</StTitle>
-          <StBody>{todo.body}</StBody>
+          <StTitle>{todo.title}</StTitle> {/* Displays the title */}
+          <StBody>{todo.body}</StBody> {/* Displays the body */}
         </div>
       </StDialog>
     </StContainer>
@@ -35,6 +41,7 @@ const Detail = () => {
 };
 
 export default Detail;
+
 
 const StContainer = styled.div`
   border: 2px solid #eee;

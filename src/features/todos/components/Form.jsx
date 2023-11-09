@@ -5,10 +5,14 @@ import nextId from "react-id-generator";
 import { addTodo } from "../../../redux/modules/todos.js";
 
 const Form = () => {
+
   const id = nextId();
+
+  const dispatch = useDispatch(); 
   
+  // Removed the id initialization here since it will be set upon form submission
   const [todo, setTodo] = useState({
-    id: 0,
+    id: '', // Changed from 0 to an empty string as 0 is a valid ID
     title: "",
     body: "",
     isDone: false,
@@ -23,8 +27,15 @@ const Form = () => {
     event.preventDefault();
     if (todo.title.trim() === "" || todo.body.trim() === "") return;
     
+    // Dispatch the addTodo action with a new ID each time a todo is added
+    dispatch(addTodo({
+      ...todo,
+      id: nextId(), // Generate a unique ID for each new todo
+    }));
+
+    // Reset the todo state to clear the form fields
     setTodo({
-      id: 0,
+      id: '',
       title: "",
       body: "",
       isDone: false,
@@ -34,14 +45,14 @@ const Form = () => {
   return (
     <StAddForm onSubmit={onSubmitHandler}>
       <StInputGroup>
-        <StFormLabel>제목</StFormLabel>
+        <StFormLabel>Title</StFormLabel>
         <StAddInput
           type="text"
           name="title"
           value={todo.title}
           onChange={onChangeHandler}
         />
-        <StFormLabel>내용</StFormLabel>
+        <StFormLabel>Contents</StFormLabel>
         <StAddInput
           type="text"
           name="body"
@@ -49,7 +60,7 @@ const Form = () => {
           onChange={onChangeHandler}
         />
       </StInputGroup>
-      <StAddButton>추가하기</StAddButton>
+      <StAddButton>Add</StAddButton>
     </StAddForm>
   );
 };

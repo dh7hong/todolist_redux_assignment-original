@@ -25,7 +25,7 @@ const List = () => {
             return (
               <StTodoContainer key={todo.id}>
                 <StLink to={`/${todo.id}`} key={todo.id}>
-                  <div>상세보기</div>
+                  <div>details</div>
                 </StLink>
                 <div>
                   <h2 className="todo-title">{todo.title}</h2>
@@ -36,13 +36,13 @@ const List = () => {
                     borderColor="red"
                     onClick={() => onDeleteTodo(todo.id)}
                   >
-                    삭제하기
+                    Delete
                   </StButton>
                   <StButton
                     borderColor="green"
                     onClick={() => onToggleStatusTodo(todo.id)}
                   >
-                    {todo.isDone ? "취소!" : "완료!"}
+                    {todo.isDone ? "Cancel!" : "Finished!"}
                   </StButton>
                 </StDialogFooter>
               </StTodoContainer>
@@ -54,12 +54,13 @@ const List = () => {
       </StListWrapper>
       <h2 className="list-title">Done..! 🎉</h2>
       <StListWrapper>
-        {todos.map((todo, index) => {
+        {todos.map((todo) => {
           if (todo.isDone) {
             return (
               <StTodoContainer key={todo.id}>
-                <StLink to={`/${index}`} key={todo.id}>
-                  <div>상세보기</div>
+                <StLink to={`/${todo.id}`}> 
+                {/* Use todo.id instead of index and key is not needed */}
+                  <div>details</div>
                 </StLink>
                 <div>
                   <h2 className="todo-title">{todo.title}</h2>
@@ -70,13 +71,14 @@ const List = () => {
                     borderColor="red"
                     onClick={() => onDeleteTodo(todo.id)}
                   >
-                    삭제하기
+                    Delete
                   </StButton>
                   <StButton
                     borderColor="green"
-                    onClick={onToggleStatusTodo}
+                    // Corrected the onClick handler to pass todo.id
+                    onClick={() => onToggleStatusTodo(todo.id)}
                   >
-                    {todo.isDone ? "취소!" : "완료!"}
+                    {todo.isDone ? "Cancel!" : "Finished!"}
                   </StButton>
                 </StDialogFooter>
               </StTodoContainer>
