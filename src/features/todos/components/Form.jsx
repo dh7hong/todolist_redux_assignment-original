@@ -6,8 +6,6 @@ import { addTodo } from "../../../redux/modules/todos.js";
 
 const Form = () => {
 
-  const id = nextId();
-
   const dispatch = useDispatch(); 
   
   // Removed the id initialization here since it will be set upon form submission

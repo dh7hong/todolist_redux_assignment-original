@@ -60,7 +60,8 @@ const todos = (state = initialState, action) => {
     case ADD_TODO:
       return {
         ...state,
-        todos: [action.payload],
+        todos: [...state.todos, action.payload],
+        // Spread existing todos and add the new one
       };
 
     case TOGGLE_STATUS_TODO:
@@ -78,15 +79,23 @@ const todos = (state = initialState, action) => {
         }),
       };
 
-    case GET_TODO_BY_ID:
-      return {
-        ...state,
-        todo: state.todos.find((todo) => {
-          return todo.id === action.payload;
-        }),
-      };
-    default:
-      return state;
+      case DELETE_TODO:
+        return {
+          ...state,
+          todos: state.todos.filter(todo => todo.id !== action.payload), 
+          // Filter out the todo to delete
+        };
+  
+      case GET_TODO_BY_ID:
+        // This case now correctly sets the 'todo' in the state for the details page
+        const foundTodo = state.todos.find(todo => todo.id === action.payload);
+        return {
+          ...state,
+          todo: foundTodo ? {...foundTodo} : initialState.todo,
+        };
+  
+      default:
+        return state;
   }
 };
 
